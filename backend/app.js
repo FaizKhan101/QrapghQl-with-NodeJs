@@ -1,6 +1,7 @@
 const path = require("path");
 
 const { graphqlHTTP } = require("express-graphql");
+const cors = require("cors")
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -32,6 +33,8 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+app.use(cors())
+
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 app.use(bodyParser.json()); // application/json
 app.use(
@@ -46,6 +49,10 @@ app.use((req, res, next) => {
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.statusCode(200);
+  }
   next();
 });
 
