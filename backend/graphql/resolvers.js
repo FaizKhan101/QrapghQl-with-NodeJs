@@ -21,7 +21,10 @@ module.exports = {
     }
 
     if (errors.length > 0) {
-        throw new Error(errors[0].message || "Input validation failed.")
+        const error = new Error(errors[0].message || "Input validation failed.")
+        error.code = 422;
+        error.data = errors
+        throw error
     }
 
     const existingUser = await User.findOne({ email: userInput.email });
