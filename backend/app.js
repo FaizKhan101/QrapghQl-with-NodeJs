@@ -1,9 +1,9 @@
 const path = require("path");
-const fs = require("fs");
 
 const { graphqlHTTP } = require("express-graphql");
 const cors = require("cors");
 
+const {clearImage} = require("./util/file")
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -111,7 +111,3 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-const clearImage = (filePath) => {
-  filePath = path.join(__dirname, "..", filePath);
-  fs.unlink(filePath, (err) => console.log(err));
-};
