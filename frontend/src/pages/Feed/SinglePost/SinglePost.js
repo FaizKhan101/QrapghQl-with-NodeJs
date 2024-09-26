@@ -17,8 +17,8 @@ class SinglePost extends Component {
 
     const graphqlQuery = {
       query: `
-        {
-          post(postId: "${postId}") {
+        query FetcheSinglePost($postId: ID!) {
+          post(postId: $postId) {
             title
             content
             imageUrl
@@ -29,6 +29,9 @@ class SinglePost extends Component {
           }
         }
       `,
+      variables: {
+        postId: postId,
+      },
     };
 
     fetch("http://localhost:8080/graphql", {
@@ -50,7 +53,9 @@ class SinglePost extends Component {
           title: resData.data.post.title,
           author: resData.data.post.creator.name,
           image: "http://localhost:8080/" + resData.data.post.imageUrl,
-          date: new Date(resData.data.post.createdAt).toLocaleDateString("en-US"),
+          date: new Date(resData.data.post.createdAt).toLocaleDateString(
+            "en-US"
+          ),
           content: resData.data.post.content,
         });
       })
